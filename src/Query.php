@@ -167,10 +167,18 @@ class Query
    * @param array $data
    * @return Query
    */
-  public function insert(array $data) : Query
+  public function insert($data) : Query
   {
     $this->mode = 'insert';
-    // INSERT INTO table (key1, key2) VALUES (?,?)
+    $table = str_replace('FROM ', '', $this->from);
+    $this->insert = "INSERT INTO {$table} ";
+    if (is_string($data)) {
+      $this->insert .= $data;
+    } elseif (is_array($data)) {
+      $this->insert .= $this->arrayToString($data, 'insert');
+    }
+    
+    return $this;
   }
 
   /**
@@ -179,9 +187,17 @@ class Query
    * @param array $data
    * @return Query
    */
-  public function onDuplicateKeyUpdate(array $data) : Query
+  public function onDuplicateKeyUpdate($data) : Query
   {
-    // ON DUPLICATE KEY UPDATE SET key1=?, key2=?
+    $this->insert .= ' ON DUPLICATE KEY UPDATE ';
+
+    if (is_string($data)) {
+      $this->insert .= $data;
+    } elseif (is_array($data)) {
+      $this->insert .= $this->arrayToString($data, 'update');
+    }
+
+    return $this;
   }
 
   /**
@@ -190,10 +206,18 @@ class Query
    * @param array $data
    * @return Query
    */
-  public function update(array $data) : Query
+  public function update($data) : Query
   {
     $this->mode = 'update';
-    // UPDATE posts SET key1=?, key2=?
+    $table = str_replace('FROM ', '', $this->from);
+    $this->update = "UPDATE {$table} SET ";
+    if (is_string($data)) {
+      $this->update .= $data;
+    } elseif (is_array($data)) {
+      $this->update .= $this->arrayToString($data, 'update');
+    }
+
+    return $this;
   }
 
   /**
@@ -204,7 +228,39 @@ class Query
   public function delete() : Query
   {
     $this->mode = 'delete';
-    // DELETE FROM posts WHERE id=?
+    $table = str_replace('FROM ', '', $this->from);
+    $this->delete = "DELETE FROM {$table} ";
+    return $this;
+  }
+
+  /**
+   * Dizeden dizgeye çevirir
+   * 
+   * @param array $data
+   * @param string $type
+   * @return string
+   */
+  private function arrayToString(array $data, string $type) : string
+  {
+    $string = '';
+
+    switch ($type) {
+      case 'insert':
+        $arrayParameters = array_values($data);
+        $columnsString = implode(',', array_keys($data));
+        $valuesString = implode(',', array_fill(0, count($arrayParameters), '?'));
+        $string = "({$columnsString}) VALUES ({$valuesString})";
+        break;
+
+      case 'update':
+        foreach ($data as $key => $value) {
+          $string .= "{$key}=?,";
+        }
+        $string = rtrim($string, ',');
+        break;
+    }
+
+    return $string;
   }
 
   /**
@@ -249,11 +305,23 @@ class Query
         break;
 
       case 'update':
-        $query = $this->update;
+        $query = sprintf(
+          '%s %s %s %s',
+          $this->update,
+          $this->where,
+          $this->orderBy,
+          $this->limit
+        );
         break;
 
       case 'delete':
-        $query = $this->delete;
+        $query = sprintf(
+          '%s %s %s %s',
+          $this->delete,
+          $this->where,
+          $this->orderBy,
+          $this->limit
+        );
         break;
     }
 
