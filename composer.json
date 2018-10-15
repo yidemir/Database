@@ -1,0 +1,24 @@
+{
+    "name": "yidemir/database",
+    "description": "Simple and lightweight database package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yılmaz Demir",
+            "email": "demiriy@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Demir\\Database\\": "src/"
+        }
+    }
+}
