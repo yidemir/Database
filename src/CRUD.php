@@ -25,6 +25,7 @@ class CRUD
    * @param string $sql
    * @param array $parameters
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function query($sql, array $parameters = []) : \PDOStatement
   {
@@ -39,6 +40,7 @@ class CRUD
    * @param array $columnsAndValues
    * @param array $onDuplicateKeyUpdate
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function insert(
     $tableName,
@@ -66,6 +68,7 @@ class CRUD
    * @param string|array $statements
    * @param array $parameters
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function update(
     $tableName,
@@ -94,6 +97,7 @@ class CRUD
    * @param string|array $statements
    * @param array $parameters
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function delete(
     $tableName,

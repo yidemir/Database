@@ -117,6 +117,7 @@ class Query
    * JOIN ifadesi hazırlar
    *
    * @return Query
+   * @throws \Exception
    */
   public function join() : Query
   {

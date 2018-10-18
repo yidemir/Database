@@ -45,6 +45,7 @@ class Model
    * @param string $query
    * @param array $params
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function tableQuery(
     string $query,
@@ -62,6 +63,7 @@ class Model
    * @param string $query
    * @param array $params
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function query(
     string $query = '',
@@ -91,6 +93,7 @@ class Model
    * Son eklenen satırın ID'sini döndürür
    *
    * @return int
+   * @throws \Exception
    */
   public static function lastInsertId() : int
   {
@@ -102,7 +105,7 @@ class Model
    * SELECT ifadesini belirler
    *
    * @param string $select
-   * @return void
+   * @return Model
    */
   public static function select(string $select) : Model
   {
@@ -116,6 +119,7 @@ class Model
    * @param string $query
    * @param array $params
    * @return mixed
+   * @throws \Exception
    */
   public static function get(string $query = '', array $params = [])
   {
@@ -131,6 +135,7 @@ class Model
    * @param string $query
    * @param array $params
    * @return mixed
+   * @throws \Exception
    */
   public static function all(string $query = '', array $params = [])
   {
@@ -143,6 +148,7 @@ class Model
    * @param string $query
    * @param array $params
    * @return mixed
+   * @throws \Exception
    */
   public static function first(string $query = '', array $params = [])
   {
@@ -158,6 +164,7 @@ class Model
    * @param string $query
    * @param array $params
    * @return mixed
+   * @throws \Exception
    */
   public static function column(string $query = '', array $params = [])
   {
@@ -174,6 +181,7 @@ class Model
    * @param array $data
    * @param array $duplicateKey
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function insert(
     array $data,
@@ -192,6 +200,7 @@ class Model
    * @param int|string $query
    * @param array $params
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function update(
     array $data,
@@ -217,6 +226,7 @@ class Model
    * @param int|string $query
    * @param array $params
    * @return \PDOStatement
+   * @throws \Exception
    */
   public static function delete(
     $query,
@@ -240,6 +250,7 @@ class Model
    * @param string $query
    * @param array $params
    * @return mixed
+   * @throws \Exception
    */
   public static function paginate(array $pagination = [], string $query = '', array $params = [])
   {
@@ -262,8 +273,9 @@ class Model
 
   /**
    * Sayfalama sınıfını döndürür
-   * 
+   *
    * @return Pagination
+   * @throws \Exception
    */
   public static function getPagination()
   {

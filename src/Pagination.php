@@ -56,10 +56,10 @@ class Pagination
   /**
    * Sınıf başlatıcı
    * 
-   * @param $totalItems Toplam öğe sayısı
-   * @param $perPage Sayfa başına öğe sayısı
-   * @param $currentPage Geçerli sayfa numarası
-   * @param $pattern Bağlantı kalıbı
+   * @param int $totalItems Toplam öğe sayısı
+   * @param int $perPage Sayfa başına öğe sayısı
+   * @param int $currentPage Geçerli sayfa numarası
+   * @param string $pattern Bağlantı kalıbı
    */
   public function __construct(
     int $totalItems, 
@@ -113,6 +113,8 @@ class Pagination
     if ($maxPages > 3) {
       $this->maxPages = $maxPages;
     }
+
+    return $this;
   }
 
   /**
@@ -167,8 +169,8 @@ class Pagination
 
   /**
    * Sayfa numarasına göre URL kalıbı döndürür
-   * 
-   * @param int $pageNum
+   *
+   * @param int $pageNumber
    * @return string
    */
   public function getPageUrl(int $pageNumber) : string
